@@ -3,8 +3,8 @@ const posts = require('../data/posts')
 
 function index(req, res) {
     let filtered_posts= posts
-    if(req.query.title){
-        filtered_posts = posts.filter(post => post.title.includes(req.query.title))
+    if(req.query.tag){
+        filtered_posts = posts.filter(post => post.tag.includes(req.query.tag))
     }
 
     res.json({
