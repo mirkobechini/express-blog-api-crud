@@ -23,12 +23,13 @@ function show(req, res) {
             error: true,
             message: "Post not found"
         })
-    }else{
-        res.json({
-            status: 200,
-            post
-            })
     }
+
+    res.json({
+        status: 200,
+        post
+        })
+    
 }
 
 function store(req, res) {
@@ -36,7 +37,23 @@ function store(req, res) {
 }
 
 function update(req, res) {
-    res.send("Update the entire single post with ID:" + req.params.id)
+    const post_id = parseInt(req.params.id)
+    const post = posts.find(post => post.id == post_id) 
+   
+    if(!post){
+        res.json({
+            status: 404,
+            error: true,
+            message: "Post not found"
+        })
+    }
+
+    const {title, content, tag} = req.body
+    post.title = title
+    post.content = content
+    post.tag = tag
+
+    res.status(204).json(post)
 }
 
 function modify(req, res) {
