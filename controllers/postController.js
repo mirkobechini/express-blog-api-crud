@@ -2,40 +2,40 @@
 const posts = require('../data/posts')
 
 function index(req, res) {
-    let filtered_posts= posts
-    if(req.query.tag){
+    let filtered_posts = posts
+    if (req.query.tag) {
         filtered_posts = posts.filter(post => post.tag.includes(req.query.tag))
     }
 
-    res.json({
-        status: 200,
+    res.status(200)
+    .json({
         filtered_posts
     })
 }
 
 function show(req, res) {
-    
+
     const post_id = parseInt(req.params.id)
-    const post = posts.find(post => post.id == post_id) 
-    if(!post){
-        res.json({
-            status: 404,
+    const post = posts.find(post => post.id == post_id)
+    if (!post) {
+        res.status(404)
+        .json({
             error: true,
             message: "Post not found"
         })
     }
 
-    res.json({
-        status: 200,
+    res.status(200)
+    .json({
         post
-        })
-    
+    })
+
 }
 
 function store(req, res) {
 
-    const newId = posts[posts.length - 1].id + 1 
-    
+    const newId = posts[posts.length - 1].id + 1
+
     const newPost = {
         id: newId,
         title: req.body.title,
@@ -44,27 +44,29 @@ function store(req, res) {
     }
 
     posts.push(newPost)
-    res.status(201).json(newPost)
+    res.status(201)
+        .json(newPost)
 }
 
 function update(req, res) {
     const post_id = parseInt(req.params.id)
-    const post = posts.find(post => post.id == post_id) 
-   
-    if(!post){
-        res.json({
-            status: 404,
-            error: true,
-            message: "Post not found"
-        })
+    const post = posts.find(post => post.id == post_id)
+
+    if (!post) {
+        res.status(404)
+            .json({
+                error: true,
+                message: "Post not found"
+            })
     }
 
-    const {title, content, tag} = req.body
+    const { title, content, tag } = req.body
     post.title = title
     post.content = content
     post.tag = tag
 
-    res.status(204).json(post)
+    res.status(204)
+        .json(post)
 }
 
 function modify(req, res) {
@@ -73,14 +75,14 @@ function modify(req, res) {
 
 
 function destroy(req, res) {
-   
+
     const post_id = parseInt(req.params.id)
-   
-    const post = posts.find(post => post.id == post_id) 
-   
-    if(!post){
-        res.json({
-            status: 404,
+
+    const post = posts.find(post => post.id == post_id)
+
+    if (!post) {
+        res.status(404)
+        .json({
             error: true,
             message: "Post not found"
         })
